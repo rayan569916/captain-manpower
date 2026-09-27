@@ -1,0 +1,203 @@
+<!-- HERO -->
+<section class="relative -mt-16 min-h-[720px] overflow-hidden pt-16 md:min-h-[780px]">
+  <cm-hero-scene />
+
+  <div class="container-page relative z-10 flex flex-col items-center pt-20 text-center md:pt-28">
+    <span class="chip mb-6 bg-white/70 backdrop-blur">Licensed manpower supply · Saudi Arabia</span>
+    <h1 class="max-w-3xl text-heading-lg md:text-display">Skilled hands,<br />deployed on time.</h1>
+    <p class="mt-6 max-w-xl text-label text-ink/80">
+      Trade-tested crews for construction, MEP, hospitality and logistics — sourced, sponsored and managed by Captain Manpower.
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <a routerLink="/contact" class="btn-primary">Request manpower <cm-icon name="arrow" [size]="18" /></a>
+      <a routerLink="/talent" class="btn-secondary">Browse talent pool</a>
+    </div>
+  </div>
+
+  <!-- Floating glass cards -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-10 z-10 hidden md:block">
+    <div class="container-page flex items-end justify-between">
+      <div class="w-72 rounded-2xl border border-white/30 bg-white/85 p-4 text-left backdrop-blur-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-caption text-stone">Deployment · J-2091</span>
+          <span class="chip">On track</span>
+        </div>
+        <p class="mt-2 text-body font-emph">40 Shuttering carpenters → NEOM</p>
+        <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-mist">
+          <div class="h-full w-[72%] rounded-full bg-wine"></div>
+        </div>
+        <div class="num mt-2 flex justify-between text-caption text-stone">
+          <span>Visas stamped 29 / 40</span><span>ETA 12 days</span>
+        </div>
+      </div>
+
+      <div class="w-72 rounded-2xl border border-white/30 bg-white/85 p-4 text-left backdrop-blur-sm">
+        <span class="text-caption text-stone">Shortlist ready</span>
+        <ul class="mt-2 space-y-2">
+          @for (c of [['AN', 'Industrial electrician', '9 yrs'], ['RD', 'HVAC technician', '7 yrs'], ['SK', 'Pipe fitter', '13 yrs']]; track c[0]) {
+            <li class="flex items-center gap-3">
+              <span class="grid size-8 place-items-center rounded-full bg-lilac text-caption font-emph">{{ c[0] }}</span>
+              <span class="flex-1 text-body-sm">{{ c[1] }}</span>
+              <span class="num text-caption text-stone">{{ c[2] }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTOR STRIP -->
+<section class="container-page -mt-px">
+  <div class="grid grid-cols-2 border-l border-t border-mist bg-paper sm:grid-cols-3 lg:grid-cols-6">
+    @for (s of sectors; track s.id) {
+      <div class="flex items-center justify-center gap-2 border-b border-r border-mist px-3 py-6 text-body-sm">
+        <cm-icon [name]="s.icon" [size]="18" />
+        <span>{{ s.short }}</span>
+      </div>
+    }
+    <div class="flex items-center justify-center gap-2 border-b border-r border-mist px-3 py-6 text-body-sm">
+      <cm-icon name="globe" [size]="18" /><span>14 countries</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTOR TABS -->
+<section class="container-page py-20 md:py-24">
+  <div class="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+    <div>
+      <p class="eyebrow mb-3">What we supply</p>
+      <h2 class="max-w-xl text-heading-sm md:text-heading-lg">One partner for every trade on your site.</h2>
+    </div>
+    <a routerLink="/services" class="link text-body">All services and engagement models →</a>
+  </div>
+
+  <div class="mt-10 grid grid-cols-2 overflow-hidden rounded-lg border border-mist bg-paper md:grid-cols-4" role="tablist">
+    @for (s of tabSectors; track s.id) {
+      <button
+        type="button"
+        role="tab"
+        [attr.aria-selected]="activeTab() === s.id"
+        (click)="activeTab.set(s.id)"
+        class="flex items-center justify-center gap-2 p-4 text-body transition-colors"
+        [class]="activeTab() === s.id ? 'bg-lilac' : 'hover:bg-parchment'"
+      >
+        <cm-icon [name]="s.icon" [class]="activeTab() === s.id ? 'text-violet' : ''" />
+        {{ s.short }}
+      </button>
+    }
+  </div>
+
+  <div class="mt-6 grid gap-6 lg:grid-cols-[1.1fr_1fr]" role="tabpanel">
+    <div class="card flex flex-col justify-between p-8">
+      <div>
+        <h3 class="text-subheading">{{ active().name }}</h3>
+        <p class="mt-4 max-w-md text-body text-stone">{{ active().summary }}</p>
+      </div>
+      <div class="mt-10 flex items-end justify-between gap-6">
+        <div>
+          <p class="num text-heading-lg">{{ active().workforce | number }}</p>
+          <p class="text-body-sm text-stone">workers deployed in this sector</p>
+        </div>
+        <a routerLink="/contact" [queryParams]="{ sector: active().id }" class="btn-primary shrink-0">Get rates</a>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      @for (role of active().roles; track role) {
+        <div class="card flex items-center gap-3">
+          <span class="grid size-8 place-items-center rounded-lg bg-parchment text-violet">
+            <cm-icon name="check" [size]="16" />
+          </span>
+          <span class="text-body">{{ role }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="border-y border-mist bg-paper">
+  <div class="container-page grid grid-cols-2 lg:grid-cols-4">
+    @for (s of stats; track s.label; let i = $index) {
+      <div class="border-mist py-10 pr-6" [class]="i > 0 ? 'lg:border-l lg:pl-8' : ''">
+        <p class="num text-heading-sm md:text-heading-lg">{{ s.value }}</p>
+        <p class="mt-2 text-body-sm text-stone">{{ s.label }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="container-page py-20 md:py-24">
+  <p class="eyebrow mb-3">How it works</p>
+  <h2 class="max-w-2xl text-heading-sm md:text-heading-lg">From brief to boots on site in four steps.</h2>
+  <ol class="mt-12 grid gap-4 md:grid-cols-4">
+    @for (p of process; track p.step) {
+      <li class="card p-6">
+        <span class="num text-body-sm text-violet">{{ p.step }}</span>
+        <h3 class="mt-6 text-label font-bold">{{ p.title }}</h3>
+        <p class="mt-2 text-body text-stone">{{ p.text }}</p>
+      </li>
+    }
+  </ol>
+</section>
+
+<!-- DARK COMPLIANCE BAND -->
+<section class="bg-lagoon text-white">
+  <div class="container-page grid items-center gap-12 py-20 md:grid-cols-2 md:py-24">
+    <div class="relative h-80 md:h-[420px]" aria-hidden="true">
+      <div class="absolute left-0 top-6 h-56 w-48 rotate-[-6deg] rounded-2xl bg-lilac/50"></div>
+      <div class="absolute left-24 top-20 h-60 w-56 rotate-[4deg] rounded-2xl bg-[#8fb8ff]/40"></div>
+      <div class="absolute left-10 top-44 h-40 w-64 rotate-[-2deg] rounded-2xl bg-[#ffb3c7]/40"></div>
+      <div class="absolute left-16 top-24 w-64 rounded-2xl border border-white/20 bg-white/90 p-4 text-ink">
+        <p class="text-caption text-stone">Iqama renewal · batch 14</p>
+        <p class="mt-1 text-body font-emph">126 workers renewed</p>
+        <div class="mt-3 flex gap-1">
+          @for (b of [1, 1, 1, 1, 1, 1, 1, 0.4]; track $index) {
+            <span class="h-6 flex-1 rounded bg-lagoon" [style.opacity]="b"></span>
+          }
+        </div>
+        <p class="mt-3 text-caption text-stone">GOSI · WPS · Qiwa synced</p>
+      </div>
+      <p class="absolute bottom-4 right-6 rotate-[-4deg] font-serif text-subheading italic text-gold/90">all paperwork, handled.</p>
+    </div>
+    <div>
+      <p class="mb-3 text-body-sm text-white/60">Compliance</p>
+      <h2 class="text-heading-sm md:text-heading-lg">Your crews stay legal, insured and paid — every month.</h2>
+      <p class="mt-6 max-w-lg text-body text-white/80">
+        Workers are on our sponsorship, so the visa, iqama, GOSI and payroll obligations sit with us. You get productive hours and a single invoice.
+      </p>
+      <ul class="mt-8 grid gap-5 sm:grid-cols-2">
+        @for (c of compliance; track c.title) {
+          <li>
+            <p class="flex items-center gap-2 text-body font-emph"><cm-icon name="shield" [size]="18" class="text-gold" />{{ c.title }}</p>
+            <p class="mt-1 text-body-sm text-white/70">{{ c.text }}</p>
+          </li>
+        }
+      </ul>
+      <a routerLink="/about" class="btn-outline-light mt-10">How we look after workers</a>
+    </div>
+  </div>
+</section>
+
+<!-- GRADIENT CTA -->
+<section class="container-page py-20 md:py-24">
+  <div
+    class="relative overflow-hidden rounded-2xl px-8 py-14 md:px-14 md:py-20"
+    style="
+      background:
+        radial-gradient(40% 70% at 68% 50%, rgba(113, 76, 182, 0.55), transparent),
+        radial-gradient(35% 70% at 93% 50%, rgba(80, 130, 255, 0.5), transparent),
+        radial-gradient(45% 60% at 50% 98%, rgba(255, 150, 190, 0.55), transparent),
+        radial-gradient(40% 60% at 50% 75%, rgba(120, 220, 230, 0.5), transparent),
+        #efe9ff;
+    "
+  >
+    <div class="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <h2 class="max-w-xl text-heading-sm md:text-heading-lg">Need 50 steel fixers by next month? Let's talk today.</h2>
+      <a routerLink="/contact" class="inline-flex h-12 shrink-0 items-center gap-2 rounded-2xl bg-white px-5 text-body text-ink hover:bg-parchment">
+        Get a quote in 24h <cm-icon name="arrow" [size]="18" />
+      </a>
+    </div>
+  </div>
+</section>
